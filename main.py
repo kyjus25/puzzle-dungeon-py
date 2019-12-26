@@ -257,6 +257,15 @@ window.onkeypress(moveUp, "Up")
 window.onkeypress(moveDown, "Down")
 window.onkeypress(restart, "r")
 
+def showWin():
+    FONT = ("Arial", 60, "bold")
+    won = turtle.Turtle()
+    won.penup()
+    won.hideturtle()
+    won.setposition(100, winY / 2)
+    won.color('white')
+    won.write('YOU HAVE WON', font=FONT)
+
 def loadLevel(level):
     # Create the level
     # P - Player
@@ -266,62 +275,64 @@ def loadLevel(level):
     # R - Red Ball
     # r - Red Goal
     clearLevel()
-    with open('levels/' + str(level) + '.json') as mapJson:
-        mapData = json.load(mapJson)
-        for i in range(len(mapData)):
-            for j in range(len(mapData[0])):
-                data = mapData[i][j]
-                if data != ' ':
-                    xPos = (winX / 10) * (j + 1) - 30
-                    yPos = (winY / 8) * (i + 1) - 30
-                    cell = data.split(',')
-                    for val in cell:
-                        if val != 'P':
-                            item = turtle.Turtle()
-                            item.speed(0)
-                            item.penup()
-                            item.setposition(xPos, yPos)
-                        if val == 'W':
-                            item.color('grey')
-                            item.turtlesize(3.2)
-                            item.shape('square')
-                            items.append({'type': val, 'item': item})
-                        if val == 'g':
-                            item.color('lightgreen')
-                            item.turtlesize(2)
-                            item.shape('square')
-                            items.append({'type': val, 'item': item})
-                        if val == 'G':
-                            item.color('green')
-                            item.turtlesize(1.5)
-                            item.shape('circle')
-                            items.append({'type': val, 'item': item})
-                        if val == 'b':
-                            item.color('lightblue')
-                            item.turtlesize(2)
-                            item.shape('square')
-                            items.append({'type': val, 'item': item})
-                        if val == 'B':
-                            item.color('blue')
-                            item.turtlesize(1.5)
-                            item.shape('circle')
-                            items.append({'type': val, 'item': item})
-                        if val == 'R':
-                            item.color('red')
-                            item.turtlesize(1.5)
-                            item.shape('circle')
-                            items.append({'type': val, 'item': item})
-                        if val == 'r':
-                            item.color('orange')
-                            item.turtlesize(2)
-                            item.shape('square')
-                            items.append({'type': val, 'item': item})
-                        if val == 'P':
-                            player.penup()
-                            player.showturtle()
-                            player.setposition(xPos, yPos)
+    try:
+        with open('levels/' + str(level) + '.json') as mapJson:
+            mapData = json.load(mapJson)
+            for i in range(len(mapData)):
+                for j in range(len(mapData[0])):
+                    data = mapData[i][j]
+                    if data != ' ':
+                        xPos = (winX / 10) * (j + 1) - 30
+                        yPos = (winY / 8) * (i + 1) - 30
+                        cell = data.split(',')
+                        for val in cell:
+                            if val != 'P':
+                                item = turtle.Turtle()
+                                item.speed(0)
+                                item.penup()
+                                item.setposition(xPos, yPos)
+                            if val == 'W':
+                                item.color('grey')
+                                item.turtlesize(3.2)
+                                item.shape('square')
+                                items.append({'type': val, 'item': item})
+                            if val == 'g':
+                                item.color('lightgreen')
+                                item.turtlesize(2)
+                                item.shape('square')
+                                items.append({'type': val, 'item': item})
+                            if val == 'G':
+                                item.color('green')
+                                item.turtlesize(1.5)
+                                item.shape('circle')
+                                items.append({'type': val, 'item': item})
+                            if val == 'b':
+                                item.color('lightblue')
+                                item.turtlesize(2)
+                                item.shape('square')
+                                items.append({'type': val, 'item': item})
+                            if val == 'B':
+                                item.color('blue')
+                                item.turtlesize(1.5)
+                                item.shape('circle')
+                                items.append({'type': val, 'item': item})
+                            if val == 'R':
+                                item.color('red')
+                                item.turtlesize(1.5)
+                                item.shape('circle')
+                                items.append({'type': val, 'item': item})
+                            if val == 'r':
+                                item.color('orange')
+                                item.turtlesize(2)
+                                item.shape('square')
+                                items.append({'type': val, 'item': item})
+                            if val == 'P':
+                                player.penup()
+                                player.showturtle()
+                                player.setposition(xPos, yPos)
 
-                        
+    except: 
+        showWin()
                         
 loadLevel(currentLevel)
 
