@@ -55,10 +55,18 @@ player.turtlesize(1.5)
 player.penup()
 moving = False
 
+def clearLevel():
+    for i in range(len(items)):
+        items[i]['item'].reset()
+
+def restart():
+    clearLevel()
+    loadLevel("1")
+
 
 def checkCollisions(item, dir, canPush):
     futurePos = getFuturePos(item, dir)
-    print('future position' + str(futurePos))
+    # print('future position' + str(futurePos))
 
     willCollide = False
 
@@ -85,14 +93,14 @@ def checkCollisions(item, dir, canPush):
 
 def checkMovables(item, dir):
     futurePos = getFuturePos(item, dir)
-    print('future position' + str(futurePos))
+    # print('future position' + str(futurePos))
 
     for i in range(len(items)):
-        print('Returned was' + str(items[i]))
+        # print('Returned was' + str(items[i]))
         itemX = items[i]['item'].xcor()
         itemY = items[i]['item'].ycor()
         if itemX == futurePos['x'] and itemY == futurePos['y']:
-            print('GOING TO CRASH!!!!')
+            # print('GOING TO CRASH!!!!')
 
             if items[i]['type'] == 'W':
                 global moving
@@ -219,55 +227,59 @@ window.onkeypress(moveLeft, "Left")
 window.onkey(moveRight, "Right")
 window.onkey(moveUp, "Up")
 window.onkey(moveDown, "Down")
+window.onkey(restart, "r")
 
-# Create the level
-# P - Player
-# W - Wall
-# B - Blue Ball
-# b - Blue Goal
-# R - Red Ball
-# r - Red Goal
-with open('levels/1.json') as mapJson:
-    mapData = json.load(mapJson)
-    for i in range(len(mapData)):
-        for j in range(len(mapData[0])):
-            val = mapData[i][j]
-            if val != ' ':
-                xPos = (winX / 10) * (j + 1) - 30
-                yPos = (winY / 8) * (i + 1) - 30
-                if val != 'P':
-                    item = turtle.Turtle()
-                    item.speed(0)
-                    item.penup()
-                    item.setposition(xPos, yPos)
-                if val == 'W':
-                    item.color('grey')
-                    item.turtlesize(3.2)
-                    item.shape('square')
-                    items.append({'type': val, 'item': item})
-                if val == 'b':
-                    item.color('lightblue')
-                    item.turtlesize(2)
-                    item.shape('square')
-                    items.append({'type': val, 'item': item})
-                if val == 'B':
-                    item.color('blue')
-                    item.turtlesize(1.5)
-                    item.shape('circle')
-                    items.append({'type': val, 'item': item})
-                if val == 'R':
-                    item.color('red')
-                    item.turtlesize(1.5)
-                    item.shape('circle')
-                    items.append({'type': val, 'item': item})
-                if val == 'r':
-                    item.color('orange')
-                    item.turtlesize(2)
-                    item.shape('square')
-                    items.append({'type': val, 'item': item})
-                if val == 'P':
-                    player.penup()
-                    player.showturtle()
-                    player.setposition(xPos, yPos)
+def loadLevel(level):
+    # Create the level
+    # P - Player
+    # W - Wall
+    # B - Blue Ball
+    # b - Blue Goal
+    # R - Red Ball
+    # r - Red Goal
+    with open('levels/' + level + '.json') as mapJson:
+        mapData = json.load(mapJson)
+        for i in range(len(mapData)):
+            for j in range(len(mapData[0])):
+                val = mapData[i][j]
+                if val != ' ':
+                    xPos = (winX / 10) * (j + 1) - 30
+                    yPos = (winY / 8) * (i + 1) - 30
+                    if val != 'P':
+                        item = turtle.Turtle()
+                        item.speed(0)
+                        item.penup()
+                        item.setposition(xPos, yPos)
+                    if val == 'W':
+                        item.color('grey')
+                        item.turtlesize(3.2)
+                        item.shape('square')
+                        items.append({'type': val, 'item': item})
+                    if val == 'b':
+                        item.color('lightblue')
+                        item.turtlesize(2)
+                        item.shape('square')
+                        items.append({'type': val, 'item': item})
+                    if val == 'B':
+                        item.color('blue')
+                        item.turtlesize(1.5)
+                        item.shape('circle')
+                        items.append({'type': val, 'item': item})
+                    if val == 'R':
+                        item.color('red')
+                        item.turtlesize(1.5)
+                        item.shape('circle')
+                        items.append({'type': val, 'item': item})
+                    if val == 'r':
+                        item.color('orange')
+                        item.turtlesize(2)
+                        item.shape('square')
+                        items.append({'type': val, 'item': item})
+                    if val == 'P':
+                        player.penup()
+                        player.showturtle()
+                        player.setposition(xPos, yPos)
+                        
+loadLevel("1")
 
 input("Press Enter to continue...")
