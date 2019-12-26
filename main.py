@@ -60,7 +60,6 @@ def clearLevel():
         items[i]['item'].reset()
 
 def restart():
-    clearLevel()
     loadLevel("1")
 
 
@@ -237,6 +236,7 @@ def loadLevel(level):
     # b - Blue Goal
     # R - Red Ball
     # r - Red Goal
+    clearLevel()
     with open('levels/' + level + '.json') as mapJson:
         mapData = json.load(mapJson)
         for i in range(len(mapData)):
@@ -279,6 +279,12 @@ def loadLevel(level):
                         player.penup()
                         player.showturtle()
                         player.setposition(xPos, yPos)
+                        
+# while True:
+    # Check if every b and r have a B and R at the same X Y
+    # for i in range(len(items)):
+        # items[i]['item'].reset()
+    # break
                         
 loadLevel("1")
 
